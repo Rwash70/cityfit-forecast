@@ -1,16 +1,22 @@
-# React + Vite
+# CityFit Forecast
+5-day city forecast with simple outfit recommendations (I-Fit).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Stack
+React + Vite, CSS Modules, OpenWeather (5-day/3h).
 
-Currently, two official plugins are available:
+## Setup
+1) `npm i`
+2) Create `.env`:
+   VITE_OPENWEATHER_API_KEY=YOUR_KEY
+3) `npm run dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Scripts
+- `npm run dev` – local dev
+- `npm run build` – production build
+- `npm run preview` – serve built app locally
 
-## React Compiler
-
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+- City search
+- °F/°C toggle
+- Five-day cards
+- One-line outfit advice per day
