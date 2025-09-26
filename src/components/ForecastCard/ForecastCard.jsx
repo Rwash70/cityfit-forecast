@@ -1,24 +1,36 @@
 import styles from './ForecastCard.module.css';
+import WeatherIcon from '../WeatherIcon/WeatherIcon.jsx';
 import { niceDate } from '../../utils/dayBuckets';
 import { outfitRecommendation } from '../../utils/outfitRules';
+
 export default function ForecastCard({ day, units = 'imperial' }) {
-  const iconUrl = `https://openweathermap.org/img/wn/${day.icon}@2x.png`;
+  if (!day) return null;
+
   const unit = units === 'metric' ? '°C' : '°F';
-  const mid = (day.hi + day.lo) / 2;
+  const mid = (Number(day.hi) + Number(day.lo)) / 2;
+
   const rec = outfitRecommendation({
     temp: mid,
     units,
     condition: day.desc,
     wind: day.wind ?? 0,
   });
+
   return (
     <article
       className={styles.card}
       aria-label={`Forecast for ${niceDate(day.dateStr)}`}
     >
-      <div className={styles.date}>{niceDate(day.dateStr)}</div>
-      <img className={styles.icon} src={iconUrl} alt={day.desc} />
+      <header className={styles.header}>
+        <div className={styles.date}>{niceDate(day.dateStr)}</div>
+      </header>
+
+      <div className={styles.iconRow}>
+        <WeatherIcon desc={day.desc} size={64} />
+      </div>
+
       <div className={styles.desc}>{cap(day.desc)}</div>
+
       <div className={styles.range}>
         <span className={styles.hi}>
           {Math.round(day.hi)}
@@ -30,10 +42,12 @@ export default function ForecastCard({ day, units = 'imperial' }) {
           {unit}
         </span>
       </div>
-      <p className={styles.rec}>{rec}</p>
+
+      {rec && <p className={styles.rec}>{rec}</p>}
     </article>
   );
 }
+
 function cap(s = '') {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 }

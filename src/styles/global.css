@@ -5,36 +5,82 @@
   --muted: #9fb0c3;
   --accent: #f5990b;
   --radius: 10px;
+  --btn-bg: #22283a;
+  --btn-fg: #e8eef9;
+
+  /* Cloud gradient stops + rain color (defaults for dark) */
+  --cloud-hi: #3a4458;
+  --cloud-mid: #2a3140;
+  --cloud-lo: #1f2735;
+  --rain: #6fb3ff;
 }
-* {
-  box-sizing: border-box;
+
+:root[data-theme='dark'] {
+  --bg: #0f1115;
+  --panel: #161a22;
+  --text: #e8eef9;
+  --muted: #9fb0c3;
+  --accent: #f5990b;
+  --btn-bg: #22283a;
+  --btn-fg: #e8eef9;
+
+  --cloud-hi: #3a4458;
+  --cloud-mid: #2a3140;
+  --cloud-lo: #1f2735;
+  --rain: #6fb3ff;
 }
-html,
-body,
-#root {
-  height: 100%;
+
+:root[data-theme='light'] {
+  --bg: #f6f8fb;
+  --panel: #ffffff;
+  --text: #0f1624;
+  --muted: #5f6b7a;
+  --accent: #f5990b;
+  --btn-bg: #e9eef7;
+  --btn-fg: #0f1624;
+
+  /* Softer blue-grey so clouds show on white cards */
+  --cloud-hi: #eaf1fb;
+  --cloud-mid: #d9e1ec;
+  --cloud-lo: #c7d3e3;
+  --rain: #5aa8ff;
 }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f6f8fb;
+    --panel: #ffffff;
+    --text: #0f1624;
+    --muted: #5f6b7a;
+    --accent: #f5990b;
+    --btn-bg: #e9eef7;
+    --btn-fg: #0f1624;
+    --cloud-hi: #eaf1fb;
+    --cloud-mid: #d9e1ec;
+    --cloud-lo: #c7d3e3;
+    --rain: #5aa8ff;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0f1115;
+    --panel: #161a22;
+    --text: #e8eef9;
+    --muted: #9fb0c3;
+    --accent: #f5990b;
+    --btn-bg: #22283a;
+    --btn-fg: #e8eef9;
+    --cloud-hi: #3a4458;
+    --cloud-mid: #2a3140;
+    --cloud-lo: #1f2735;
+    --rain: #6fb3ff;
+  }
+}
+
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter,
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif;
+  background: var(--bg);
   color: var(--text);
-  background: radial-gradient(
-    1200px 600px at 10% -10%,
-    #1a2130 0%,
-    #0f1115 40%,
-    #0f1115 100%
-  );
-}
-a {
-  color: inherit;
-  text-decoration: none;
-}
-button {
-  font: inherit;
-}
-input,
-button {
-  border: none;
-  outline: none;
 }
