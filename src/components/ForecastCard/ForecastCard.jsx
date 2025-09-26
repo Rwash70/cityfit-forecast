@@ -1,14 +1,12 @@
+// src/components/ForecastCard/ForecastCard.jsx
 import styles from './ForecastCard.module.css';
-import WeatherIcon from '../WeatherIcon/WeatherIcon.jsx';
 import { niceDate } from '../../utils/dayBuckets';
 import { outfitRecommendation } from '../../utils/outfitRules';
+import WeatherIcon from '../WeatherIcon/WeatherIcon.jsx';
 
 export default function ForecastCard({ day, units = 'imperial' }) {
-  if (!day) return null;
-
   const unit = units === 'metric' ? '°C' : '°F';
-  const mid = (Number(day.hi) + Number(day.lo)) / 2;
-
+  const mid = (day.hi + day.lo) / 2;
   const rec = outfitRecommendation({
     temp: mid,
     units,
@@ -21,12 +19,10 @@ export default function ForecastCard({ day, units = 'imperial' }) {
       className={styles.card}
       aria-label={`Forecast for ${niceDate(day.dateStr)}`}
     >
-      <header className={styles.header}>
-        <div className={styles.date}>{niceDate(day.dateStr)}</div>
-      </header>
+      <div className={styles.date}>{niceDate(day.dateStr)}</div>
 
       <div className={styles.iconRow}>
-        <WeatherIcon desc={day.desc} size={64} />
+        <WeatherIcon desc={day.desc} />
       </div>
 
       <div className={styles.desc}>{cap(day.desc)}</div>
@@ -43,11 +39,11 @@ export default function ForecastCard({ day, units = 'imperial' }) {
         </span>
       </div>
 
-      {rec && <p className={styles.rec}>{rec}</p>}
+      <p className={styles.rec}>{rec}</p>
     </article>
   );
 }
 
 function cap(s = '') {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }

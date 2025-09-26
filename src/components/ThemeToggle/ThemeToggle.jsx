@@ -1,30 +1,70 @@
-import { useEffect, useState } from 'react';
+// src/components/ThemeToggle/ThemeToggle.jsx
+import { useEffect, useState, useMemo } from 'react';
 
-const MODES = ['auto', 'dark', 'light'];
+const STORAGE_KEY = 'cityfit-theme'; // 'light' | 'dark' | 'auto'
 
-export default function ThemeToggle({ className = '' }) {
+function applyTheme(mode) {
+  const root = document.documentElement;
+  if (mode === 'light') {
+    root.setAttribute('data-theme', 'light');
+  } else if (mode === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  } else {
+    // auto → let prefers-color-scheme control it
+    root.removeAttribute('data-theme');
+  }
+}
+
+export default function ThemeToggle() {
   const [mode, setMode] = useState(
-    () => localStorage.getItem('theme') || 'auto'
+    () => localStorage.getItem(STORAGE_KEY) || 'auto'
   );
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (mode === 'auto') root.removeAttribute('data-theme');
-    else root.setAttribute('data-theme', mode);
-    localStorage.setItem('theme', mode);
+  const label = useMemo(() => {
+    if (mode === 'light') return 'Light';
+    if (mode === 'dark') return 'Dark';
+    return 'Auto';
   }, [mode]);
 
-  function next() {
-    setMode((m) => MODES[(MODES.indexOf(m) + 1) % MODES.length]);
+  useEffect(() => {
+    applyTheme(mode);
+    localStorage.setItem(STORAGE_KEY, mode);
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode !== 'auto') return;
+    const m = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = () => applyTheme('auto');
+    m.addEventListener?.('change', onChange);
+    m.addListener?.(onChange);
+    return () => {
+      m.removeEventListener?.('change', onChange);
+      m.removeListener?.(onChange);
+    };
+  }, [mode]);
+
+  function cycle() {
+    setMode((prev) =>
+      prev === 'light' ? 'dark' : prev === 'dark' ? 'auto' : 'light'
+    );
   }
-  const label = mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Dark' : 'Light';
 
   return (
     <button
-      className={className}
-      onClick={next}
-      aria-label='Toggle theme'
-      title='Theme: Auto / Dark / Light'
+      type='button'
+      onClick={cycle}
+      aria-label={`Theme: ${label}. Click to switch`}
+      title={`Theme: ${label} (click to change)`}
+      style={{
+        padding: '12px 14px',
+        borderRadius: '10px',
+        background: 'var(--btn-bg)',
+        color: 'var(--btn-fg)',
+        border: 0,
+        cursor: 'pointer',
+        minWidth: 60,
+        fontWeight: 600,
+      }}
     >
       {label}
     </button>

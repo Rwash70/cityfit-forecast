@@ -1,3 +1,4 @@
+/* ---------- Theme Tokens ---------- */
 :root {
   --bg: #0f1115;
   --panel: #161a22;
@@ -7,11 +8,11 @@
   --radius: 10px;
   --btn-bg: #22283a;
   --btn-fg: #e8eef9;
+  --link: #89a8ff;
 
-  /* Cloud gradient stops + rain color (defaults for dark) */
-  --cloud-hi: #3a4458;
-  --cloud-mid: #2a3140;
-  --cloud-lo: #1f2735;
+  --cloud-hi: #aab9d4;
+  --cloud-mid: #7383a0;
+  --cloud-lo: #4b5872;
   --rain: #6fb3ff;
 }
 
@@ -23,10 +24,12 @@
   --accent: #f5990b;
   --btn-bg: #22283a;
   --btn-fg: #e8eef9;
+  --link: #9fb6ff;
 
-  --cloud-hi: #3a4458;
-  --cloud-mid: #2a3140;
-  --cloud-lo: #1f2735;
+  /* Higher contrast clouds for dark background */
+  --cloud-hi: #c5d0ef;
+  --cloud-mid: #93a2bf;
+  --cloud-lo: #657494;
   --rain: #6fb3ff;
 }
 
@@ -38,6 +41,7 @@
   --accent: #f5990b;
   --btn-bg: #e9eef7;
   --btn-fg: #0f1624;
+  --link: #3857d6;
 
   /* Softer blue-grey so clouds show on white cards */
   --cloud-hi: #eaf1fb;
@@ -46,6 +50,7 @@
   --rain: #5aa8ff;
 }
 
+/* Respect system theme unless user explicitly sets data-theme */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme='dark']) {
     --bg: #f6f8fb;
@@ -55,6 +60,8 @@
     --accent: #f5990b;
     --btn-bg: #e9eef7;
     --btn-fg: #0f1624;
+    --link: #3857d6;
+
     --cloud-hi: #eaf1fb;
     --cloud-mid: #d9e1ec;
     --cloud-lo: #c7d3e3;
@@ -70,11 +77,25 @@
     --accent: #f5990b;
     --btn-bg: #22283a;
     --btn-fg: #e8eef9;
-    --cloud-hi: #3a4458;
-    --cloud-mid: #2a3140;
-    --cloud-lo: #1f2735;
+    --link: #9fb6ff;
+
+    --cloud-hi: #b6c4de;
+    --cloud-mid: #8494b1;
+    --cloud-lo: #566684;
     --rain: #6fb3ff;
   }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
 }
 
 body {
@@ -83,4 +104,53 @@ body {
     Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 0;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  cursor: pointer;
+}
+button:hover {
+  filter: brightness(1.05);
+}
+
+input {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+input::placeholder {
+  color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
 }
