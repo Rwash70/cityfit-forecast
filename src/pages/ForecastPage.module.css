@@ -1,0 +1,49 @@
+.wrap {
+  max-width: 980px;
+  margin: 40px auto;
+  padding: 0 16px 40px;
+}
+.header {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+}
+.title {
+  margin: 0;
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
+}
+.subtitle {
+  color: var(--muted);
+}
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.unit {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: #22283a;
+  color: var(--text);
+  cursor: pointer;
+  min-width: 54px;
+  font-weight: 600;
+}
+.unit:hover {
+  filter: brightness(1.05);
+}
+.sectionTitle {
+  margin: 22px 0 10px;
+  font-size: 1.2rem;
+  color: var(--muted);
+}
+.status {
+  text-align: center;
+  color: var(--muted);
+}
+.error {
+  text-align: center;
+  color: #ff6b6b;
+}

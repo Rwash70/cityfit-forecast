@@ -1,0 +1,40 @@
+.card {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  display: grid;
+  gap: 6px;
+}
+.date {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+}
+.desc {
+  font-weight: 600;
+}
+.range {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: baseline;
+}
+.hi {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.lo,
+.dot {
+  color: var(--muted);
+}
+.rec {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  line-height: 1.25rem;
+  color: var(--muted);
+}
