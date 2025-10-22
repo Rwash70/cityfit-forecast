@@ -94,7 +94,7 @@ export default function ForecastPage() {
           const five = await getForecastByCity(cityInput, units);
           const label = `${five.city.name}, ${five.city.country}`;
           setCity(label);
-          setDays(toDaily(five.list));
+          setDays(toDaily(five.list, units));
           setNotice(
             '7-day not available for that query. Showing 5-day instead.'
           );
@@ -127,7 +127,7 @@ export default function ForecastPage() {
           label,
         };
         setCity(label);
-        setDays(toDaily(five.list));
+        setDays(toDaily(five.list, units));
         setSuggestions(pick.suggestions || []);
         setError('');
         setNotice('');
@@ -139,7 +139,7 @@ export default function ForecastPage() {
         const five = await getForecastByCity(cityInput, units);
         const label = `${five.city.name}, ${five.city.country}`;
         setCity(label);
-        setDays(toDaily(five.list));
+        setDays(toDaily(five.list, units));
         setNotice('Showing name-based forecast.');
         setError('');
         return;
