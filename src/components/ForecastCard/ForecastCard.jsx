@@ -5,9 +5,8 @@ import { outfitRecommendation } from '../../utils/outfitRules';
 import WeatherIcon from '../WeatherIcon/WeatherIcon.jsx';
 
 export default function ForecastCard({ day, units }) {
-  // where the numbers are coming from (what the API gave you)
-  const dataUnits = day.units ?? 'metric'; // 'metric' or 'imperial'
-  // what you want to display (user selection)
+  const dataUnits = day.units ?? 'units'; // 'metric' or 'imperial'
+
   const showUnits = units ?? dataUnits; // fallback to data units
 
   const hi = convertTemp(day.hi, dataUnits, showUnits);
@@ -54,7 +53,9 @@ export default function ForecastCard({ day, units }) {
 }
 
 function convertTemp(t, from, to) {
-  if (from === to) return t;
+  if (!t || from === to) return t;
+
+  if (from === 'imperial' && to === 'imperial' && t > 100) return t;
   return to === 'imperial' ? (t * 9) / 5 + 32 : ((t - 32) * 5) / 9;
 }
 
