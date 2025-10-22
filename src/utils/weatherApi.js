@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// OpenWeather endpoint
 const API = 'https://api.openweathermap.org/data/2.5/forecast';
 
 const KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;

@@ -42,13 +42,11 @@ export default function ForecastPage() {
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // NEW: split fatal vs soft messages
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
-  // Cache last successful geocode
-  const lastPickRef = useRef(null); // { lat, lon, label }
+  const lastPickRef = useRef(null);
 
   async function load(cityInput) {
     setLoading(true);
@@ -58,13 +56,12 @@ export default function ForecastPage() {
 
     try {
       if (range === '7') {
-        // Robust geocode
         const pick = await pickLocation(cityInput);
         if (pick.best) {
           const label = [pick.best.name, pick.best.admin1, pick.best.country]
             .filter(Boolean)
             .join(', ');
-          const data = await getDailyByCity(cityInput, units); // includes suggestions + alignment
+          const data = await getDailyByCity(cityInput, units);
           lastPickRef.current = {
             lat: pick.best.latitude,
             lon: pick.best.longitude,
@@ -73,12 +70,11 @@ export default function ForecastPage() {
           setCity(data.city.name);
           setDays(data.days);
           setSuggestions(data.suggestions || []);
-          setError(''); // clear any previous error
+          setError('');
           setNotice('');
           return;
         }
 
-        // Fallback A: use last successful coords/label
         if (lastPickRef.current) {
           const prox = lastPickRef.current;
           const data = await getDailyByCity(prox.label, units);
@@ -89,7 +85,6 @@ export default function ForecastPage() {
           return;
         }
 
-        // Fallback B: show 5D by city (so user still sees data)
         try {
           const five = await getForecastByCity(cityInput, units);
           const label = `${five.city.name}, ${five.city.country}`;
@@ -100,9 +95,7 @@ export default function ForecastPage() {
           );
           setError('');
           return;
-        } catch {
-          /* fall through to final error */
-        }
+        } catch {}
 
         setError(
           'City not found. Try a more specific name (e.g., "Cape Town, ZA").'
@@ -110,7 +103,6 @@ export default function ForecastPage() {
         return;
       }
 
-      // 5-DAY PATH (prefer coords)
       const pick = await pickLocation(cityInput);
       if (pick.best) {
         const label = [pick.best.name, pick.best.admin1, pick.best.country]
@@ -134,7 +126,6 @@ export default function ForecastPage() {
         return;
       }
 
-      // Fallback: name-based OpenWeather
       try {
         const five = await getForecastByCity(cityInput, units);
         const label = `${five.city.name}, ${five.city.country}`;
@@ -154,17 +145,15 @@ export default function ForecastPage() {
       setSuggestions(picks?.suggestions || []);
       setError('City not found. Try one of the suggestions below.');
     } catch (e) {
-      // Keep last good data; show fatal only if we truly have nothing
       setError(e?.message || 'Failed to load forecast');
     } finally {
       setLoading(false);
     }
   }
 
-  // Initial + when units/range change
   useEffect(() => {
     load(city);
-  }, [units, range]); // eslint-disable-line
+  }, [units, range]);
 
   return (
     <div className={styles.page}>
@@ -201,14 +190,12 @@ export default function ForecastPage() {
 
             <div className={styles.subtitle}>{city}</div>
 
-            {/* Soft notice (muted) */}
             {notice && <p className={styles.status}>{notice}</p>}
           </header>
         </div>
 
         {loading && <p className={styles.status}>Loading…</p>}
 
-        {/* Only show fatal error block if there are NO cards to display */}
         {error && days.length === 0 && (
           <section>
             <p className={styles.error} role='alert'>
@@ -231,7 +218,6 @@ export default function ForecastPage() {
           </section>
         )}
 
-        {/* Cards (keep showing even if we had a soft error earlier) */}
         {!loading && days.length > 0 && (
           <section>
             <h2 className={styles.sectionTitle}>

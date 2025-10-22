@@ -21,7 +21,7 @@ function wmoToDesc(code) {
 function normalizeQuery(raw = '') {
   let s = String(raw).trim().toLowerCase();
   s = s.replace(/\s+/g, ' ');
-  // common fixes
+
   s = s.replace(/\bcapetown\b/g, 'cape town');
   s = s.replace(/\bsouth african\b/g, 'south africa');
   s = s.replace(/\bu\.?s\.?a\.?\b/g, 'united states');

@@ -1,7 +1,7 @@
 // src/components/ThemeToggle/ThemeToggle.jsx
 import { useEffect, useState, useMemo } from 'react';
 
-const STORAGE_KEY = 'cityfit-theme'; // 'light' | 'dark' | 'auto'
+const STORAGE_KEY = 'cityfit-theme'; 
 
 function applyTheme(mode) {
   const root = document.documentElement;
@@ -10,7 +10,7 @@ function applyTheme(mode) {
   } else if (mode === 'dark') {
     root.setAttribute('data-theme', 'dark');
   } else {
-    // auto → let prefers-color-scheme control it
+    
     root.removeAttribute('data-theme');
   }
 }

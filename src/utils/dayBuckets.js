@@ -1,16 +1,15 @@
 // utils/dayBuckets.js
 import { format, fromUnixTime } from 'date-fns';
 
-// Tell this function which units the API returned: 'metric' or 'imperial'
 export function toDaily(list, units = 'metric') {
   const byDay = new Map();
 
   for (const item of list) {
     const dateStr = format(fromUnixTime(item.dt), 'yyyy-MM-dd');
-    const t = item.main.temp; // temp from API (in `units`)
+    const t = item.main.temp;
     const icon = item.weather?.[0]?.icon ?? '01d';
     const desc = item.weather?.[0]?.description ?? '';
-    const wind = item.wind?.speed ?? 0; // m/s in metric, mph in imperial
+    const wind = item.wind?.speed ?? 0;
 
     if (!byDay.has(dateStr)) {
       byDay.set(dateStr, {
@@ -21,7 +20,7 @@ export function toDaily(list, units = 'metric') {
         desc,
         windSamples: [wind],
         samples: [item],
-        units, // <-- keep the source units
+        units,
       });
     } else {
       const d = byDay.get(dateStr);
@@ -30,7 +29,6 @@ export function toDaily(list, units = 'metric') {
       d.windSamples.push(wind);
       d.samples.push(item);
 
-      // Prefer the noon snapshot for icon/desc when available
       const noon = d.samples.find((s) => s.dt_txt?.includes('12:00:00'));
       if (noon) {
         d.icon = noon.weather?.[0]?.icon ?? d.icon;
@@ -41,8 +39,8 @@ export function toDaily(list, units = 'metric') {
 
   const days = Array.from(byDay.values()).map((d) => ({
     ...d,
-    wind: avg(d.windSamples), // avg wind (still in source units)
-    units, // echo for safety
+    wind: avg(d.windSamples),
+    units,
   }));
 
   return days.slice(0, 5);
